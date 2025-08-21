@@ -1448,6 +1448,7 @@
             document.getElementById('isRetailer').checked = false;
         }
 
+        
         // Registration handling
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1474,9 +1475,17 @@
             users.push(newUser);
             db.saveUsers(users);
             
-            showNotification('Account created successfully! Please login now. 🎉');
+            currentUser = newUser;
             closeModal('registerModal');
             document.getElementById('registerForm').reset();
+
+            if (newUser.isRetailer) {
+                showPage('retailer-page');
+                showNotification(`Welcome, ${newUser.name}! Your manager account has been created 🎉`);
+            } else {
+                showPage('customer-page');
+                showNotification(`Welcome, ${newUser.name}! Your account has been created 🎉`);
+            }
         });
 
         // Product management functions
